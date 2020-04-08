@@ -60,8 +60,8 @@ for ii = 2:numel(menuStack)
         pause(0.05)
         jMenuItem.doClick;
     end
-	tmp    	  = jMenuItem.getMenuComponents;
-    tmp    	  = tmp(arrayfun(@(x) contains(class(x),'JMenu'),tmp));
+    tmp       = jMenuItem.getMenuComponents;
+    tmp       = tmp(arrayfun(@(x) contains(class(x),'JMenu'),tmp));
     jMenuItem = tmp(positions(ii));
 end
 
