@@ -1,9 +1,9 @@
 function setMenuIcon(menuObject,iconFile)
 % SETMENUICON  Add icons to UIMENU items.
-%   SETMENUICON sets the icon of MENUOBJECT to ICONFILE. MENUOBJECT is a
-%   menu item created with MATLAB's own UIMENU. ICONFILE denotes the path
-%   to an image file containing the desired icon. This should work with
-%   GIF, JPEG and PNG images.
+%   SETMENUICON(MENUOBJECT,ICONFILE) sets the icon of MENUOBJECT to
+%   ICONFILE. MENUOBJECT is a menu item created with MATLAB's own UIMENU.
+%   ICONFILE denotes the path to an image file containing the desired icon.
+%   This should work with GIF, JPEG and PNG images.
 
 %   Copyright (C) 2020 Florian Rau
 %
