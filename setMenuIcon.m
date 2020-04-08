@@ -34,7 +34,7 @@ while isa(menuStack(1).Parent,'matlab.ui.container.Menu')
     menuStack = [menuStack(1).Parent menuStack]; %#ok<AGROW>
 end
 
-% obtain the position of UIStack elements within their parent container
+% obtain the position of menuStack elements within their parent container
 positions = [menuStack.Position];
 
 % obtain jFrame (temporarily disabling the respective warning)
@@ -65,5 +65,5 @@ for ii = 2:numel(menuStack)
     jMenuItem = tmp(positions(ii));
 end
 
-% set icon
+% add icon to jMenuItem
 jMenuItem.setIcon(javax.swing.ImageIcon(iconFile));
