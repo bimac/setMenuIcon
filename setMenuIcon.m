@@ -26,7 +26,7 @@ function setMenuIcon(menuObject,iconFile)
 %   version 1.0.2   minor clean-up of the code
 %   version 1.0.3   added example
 %   version 1.0.4   added check for App Designer figures
-
+%   version 1.0.5   minor clean-up
 
 % validate inputs
 validateattributes(menuObject,{'matlab.ui.container.Menu'},{'scalar'})
@@ -41,7 +41,7 @@ while isa(menuStack(1).Parent,'matlab.ui.container.Menu')
     menuStack = [menuStack(1).Parent menuStack]; %#ok<AGROW>
 end
 
-% check for App Designer figures
+% check for App Designer figure
 hFigure = menuStack(1).Parent;
 if isempty(get(hFigure,'JavaFrame_I'))
     error('Sorry, setMenuItem does not work with App Designer figures.')
@@ -51,12 +51,12 @@ end
 warnID  = 'MATLAB:ui:javaframe:PropertyToBeRemoved';
 tmp     = warning('query',warnID);
 warning('off',warnID)
-jFrame  = get(hFigure,'JavaFrame'); %#ok<JAVFM>
+jFrame  = get(hFigure,'JavaFrame');
 warning(tmp.state,warnID)
 
 % get jMenuBar
 tmp      = fieldnames(jFrame);
-tmp      = tmp(~cellfun(@isempty,regexp(tmp,'fHG\dClient|fFigureClient')));
+tmp      = tmp(cellfun(@any,regexp(tmp,'^f(?:HG\d|Figure)Client$')));
 jMenuBar = jFrame.(tmp{1}).getMenuBar;
 
 % obtain jMenuItem
