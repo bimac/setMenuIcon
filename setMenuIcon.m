@@ -20,6 +20,13 @@ function setMenuIcon(menuObject,iconFile)
 %   You should have received a copy of the GNU General Public License along
 %   with setMenuIcon.  If not, see <https://www.gnu.org/licenses/>.
 
+%   REVISION HISTORY
+%   version 1.0.0   initial release
+%   version 1.0.1   corrected description and added acknowledgements
+%   version 1.0.2   minor clean-up of the code
+%   version 1.0.3   added example
+%   version 1.0.4   added check for App Designer figures
+
 
 % validate inputs
 validateattributes(menuObject,{'matlab.ui.container.Menu'},{'scalar'})
@@ -34,14 +41,17 @@ while isa(menuStack(1).Parent,'matlab.ui.container.Menu')
     menuStack = [menuStack(1).Parent menuStack]; %#ok<AGROW>
 end
 
-% obtain the position of menuStack elements within their parent container
-positions = [menuStack.Position];
+% check for App Designer figures
+hFigure = menuStack(1).Parent;
+if isempty(get(hFigure,'JavaFrame_I'))
+    error('Sorry, setMenuItem does not work with App Designer figures.')
+end
 
 % obtain jFrame (temporarily disabling the respective warning)
 warnID  = 'MATLAB:ui:javaframe:PropertyToBeRemoved';
 tmp     = warning('query',warnID);
 warning('off',warnID)
-jFrame  = get(menuStack(1).Parent,'JavaFrame'); %#ok<JAVFM>
+jFrame  = get(hFigure,'JavaFrame'); %#ok<JAVFM>
 warning(tmp.state,warnID)
 
 % get jMenuBar
@@ -50,6 +60,7 @@ tmp      = tmp(~cellfun(@isempty,regexp(tmp,'fHG\dClient|fFigureClient')));
 jMenuBar = jFrame.(tmp{1}).getMenuBar;
 
 % obtain jMenuItem
+positions = [menuStack.Position];
 while jMenuBar.getMenuCount < positions(1)
     pause(0.05)
 end
@@ -58,7 +69,7 @@ for ii = 2:numel(menuStack)
     if jMenuItem.getMenuComponentCount < positions(ii)
         jMenuItem.doClick;
         pause(0.05)
-        jMenuItem.doClick;
+        javax.swing.MenuSelectionManager.defaultManager.clearSelectedPath;
     end
     tmp       = jMenuItem.getMenuComponents;
     tmp       = tmp(arrayfun(@(x) contains(class(x),'JMenu'),tmp));
